@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Humanitarian Entry - Mnet's World Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <!-- Quill.js Rich Text Editor -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <!-- Mobile Header -->
+    <div class="mobile-header"></div>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar"></aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="page-header">
+        <h1 id="page-title">Add Humanitarian Entry</h1>
+        <a href="/admin/humanitarian.html" class="btn btn-outline">&larr; Back to Humanitarian</a>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-body">
+          <form id="humanitarian-form">
+            <!-- Cover Image Upload -->
+            <div class="form-group">
+              <label class="form-label">Cover Image</label>
+              <div id="cover-upload" class="upload-zone">
+                <div class="upload-icon">&#128247;</div>
+                <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+                <div class="upload-hint">JPEG, PNG or WebP (max 5MB)</div>
+                <input type="file" accept="image/jpeg,image/png,image/webp">
+              </div>
+            </div>
+
+            <!-- Title -->
+            <div class="form-group">
+              <label class="form-label" for="entry-title">Title <span class="required">*</span></label>
+              <input type="text" id="entry-title" class="form-input" placeholder="Enter the title" required>
+            </div>
+
+            <div class="form-row">
+              <!-- Location -->
+              <div class="form-group">
+                <label class="form-label" for="entry-location">Location</label>
+                <input type="text" id="entry-location" class="form-input" placeholder="e.g. Nairobi, Kenya">
+              </div>
+
+              <!-- Activity Date -->
+              <div class="form-group">
+                <label class="form-label" for="entry-date">Activity Date</label>
+                <input type="date" id="entry-date" class="form-input">
+              </div>
+            </div>
+
+            <!-- Description (Quill Editor) -->
+            <div class="form-group">
+              <label class="form-label">Description <span class="required">*</span></label>
+              <div id="quill-editor"></div>
+            </div>
+
+            <!-- Published Toggle -->
+            <div class="form-group">
+              <div class="form-checkbox">
+                <input type="checkbox" id="entry-published" checked>
+                <label for="entry-published">Published</label>
+              </div>
+              <p class="form-help">Uncheck to save as a draft.</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="save-btn">Save Entry</button>
+              <a href="/admin/humanitarian.html" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="/js/admin/auth.js"></script>
+  <script src="/js/admin/media.js"></script>
+  <script src="/js/admin/humanitarian.js"></script>
+</body>
+</html>

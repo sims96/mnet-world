@@ -1,0 +1,20 @@
+{
+  "name": "mnet-world",
+  "version": "1.0.0",
+  "description": "Mnet's World - Cake, food & lifestyle website",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply mnet-world-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply mnet-world-db --remote"
+  },
+  "dependencies": {
+    "hono": "^4.12.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260303.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.68.1"
+  }
+}

@@ -1,0 +1,483 @@
+/* ==========================================================================
+   Mnet's World - Humanitarian Page Styles
+   Page header, timeline layout, entry cards, responsive design.
+   ========================================================================== */
+
+/* ==========================================================================
+   PAGE HEADER
+   ========================================================================== */
+
+.humanitarian-header {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-pink-200) 0%,
+    var(--color-pink-100) 30%,
+    var(--color-cream) 70%,
+    var(--color-pink-50) 100%
+  );
+  overflow: hidden;
+  padding: calc(var(--nav-height) + var(--space-8)) 0 var(--space-10);
+  text-align: center;
+}
+
+.humanitarian-header__content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.humanitarian-header__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-3);
+}
+
+.humanitarian-header__subtitle {
+  font-family: var(--font-script);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.humanitarian-header__intro {
+  font-size: var(--text-base);
+  color: var(--color-text-light);
+  line-height: var(--leading-loose);
+  margin-top: var(--space-6);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .humanitarian-header {
+    min-height: 480px;
+    padding: var(--space-16) 0;
+  }
+
+  .humanitarian-header__title {
+    font-size: var(--text-5xl);
+  }
+
+  .humanitarian-header__subtitle {
+    font-size: var(--text-2xl);
+  }
+
+  .humanitarian-header__intro {
+    font-size: var(--text-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .humanitarian-header {
+    min-height: 520px;
+  }
+
+  .humanitarian-header__title {
+    font-size: var(--text-6xl);
+  }
+}
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
+
+.humanitarian-timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-4) 0;
+}
+
+/* Vertical connecting line */
+.humanitarian-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--color-pink-200) 0%,
+    var(--color-gold-light) 50%,
+    var(--color-pink-200) 100%
+  );
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   TIMELINE ENTRY
+   ========================================================================== */
+
+.timeline-entry {
+  position: relative;
+  margin-bottom: var(--space-10);
+  padding-left: 56px;
+}
+
+.timeline-entry:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline dot */
+.timeline-entry__dot {
+  position: absolute;
+  left: 10px;
+  top: var(--space-6);
+  width: 24px;
+  height: 24px;
+  background: var(--color-white);
+  border: 3px solid var(--color-pink-400);
+  border-radius: 50%;
+  z-index: var(--z-base);
+  box-shadow: 0 0 0 4px var(--color-pink-50);
+  transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.timeline-entry:hover .timeline-entry__dot {
+  transform: scale(1.2);
+  border-color: var(--color-gold);
+}
+
+/* Date badge */
+.timeline-entry__date {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-pink-500);
+  background: var(--color-pink-50);
+  border: 1px solid var(--color-pink-200);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+}
+
+/* Card */
+.timeline-entry__card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.timeline-entry__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card image */
+.timeline-entry__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-pink-100), var(--color-cream));
+}
+
+.timeline-entry__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.timeline-entry__card:hover .timeline-entry__image img {
+  transform: scale(1.05);
+}
+
+/* Image placeholder */
+.timeline-entry__image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-pink-100), var(--color-cream));
+}
+
+.timeline-entry__image-placeholder-icon {
+  opacity: 0.3;
+  margin-bottom: var(--space-2);
+}
+
+.timeline-entry__image-placeholder-text {
+  font-family: var(--font-script);
+  font-size: var(--text-sm);
+  color: var(--color-pink-400);
+  opacity: 0.6;
+}
+
+/* Image gradient overlay */
+.timeline-entry__image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(transparent, rgba(61, 32, 40, 0.2));
+  pointer-events: none;
+}
+
+/* Location badge on image */
+.timeline-entry__location {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-bold);
+  color: var(--color-white);
+  background: rgba(61, 32, 40, 0.6);
+  backdrop-filter: blur(4px);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  z-index: var(--z-base);
+}
+
+.timeline-entry__location svg {
+  flex-shrink: 0;
+}
+
+/* Card body */
+.timeline-entry__body {
+  padding: var(--space-5);
+}
+
+.timeline-entry__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  line-height: var(--leading-snug);
+}
+
+.timeline-entry__excerpt {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  line-height: var(--leading-normal);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   DESKTOP ALTERNATING TIMELINE
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .humanitarian-timeline::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-entry {
+    width: 50%;
+    padding-left: 0;
+    margin-bottom: var(--space-12);
+  }
+
+  /* Left-aligned entries (odd) */
+  .timeline-entry:nth-child(odd) {
+    padding-right: var(--space-10);
+    text-align: right;
+  }
+
+  .timeline-entry:nth-child(odd) .timeline-entry__dot {
+    left: auto;
+    right: -12px;
+  }
+
+  .timeline-entry:nth-child(odd) .timeline-entry__date {
+    /* date stays inline */
+  }
+
+  .timeline-entry:nth-child(odd) .timeline-entry__card {
+    /* card on the left */
+  }
+
+  /* Right-aligned entries (even) */
+  .timeline-entry:nth-child(even) {
+    margin-left: 50%;
+    padding-left: var(--space-10);
+    text-align: left;
+  }
+
+  .timeline-entry:nth-child(even) .timeline-entry__dot {
+    left: -12px;
+  }
+
+  /* Card inner text always left-aligned */
+  .timeline-entry__body {
+    text-align: left;
+  }
+
+  .timeline-entry__title {
+    font-size: var(--text-xl);
+  }
+
+  .timeline-entry__excerpt {
+    font-size: var(--text-base);
+    -webkit-line-clamp: 4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .timeline-entry:nth-child(odd) {
+    padding-right: var(--space-12);
+  }
+
+  .timeline-entry:nth-child(even) {
+    padding-left: var(--space-12);
+  }
+}
+
+/* ==========================================================================
+   LOADING SKELETONS
+   ========================================================================== */
+
+.timeline-skeleton {
+  position: relative;
+  margin-bottom: var(--space-10);
+  padding-left: 56px;
+}
+
+.timeline-skeleton__card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline-skeleton__image {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.timeline-skeleton__body {
+  padding: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .timeline-skeleton {
+    width: 50%;
+    padding-left: 0;
+  }
+
+  .timeline-skeleton:nth-child(odd) {
+    padding-right: var(--space-10);
+  }
+
+  .timeline-skeleton:nth-child(even) {
+    margin-left: 50%;
+    padding-left: var(--space-10);
+  }
+}
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+
+.humanitarian-empty {
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+}
+
+.humanitarian-empty__icon {
+  margin-bottom: var(--space-4);
+  opacity: 0.3;
+}
+
+.humanitarian-empty__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.humanitarian-empty__text {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 400px;
+  margin: 0 auto var(--space-6);
+  line-height: var(--leading-normal);
+}
+
+/* ==========================================================================
+   CTA BANNER (shared, but ensure it's styled for this page too)
+   ========================================================================== */
+
+.cta-banner {
+  background: linear-gradient(
+    135deg,
+    var(--color-pink-500) 0%,
+    var(--color-pink-600) 50%,
+    var(--color-pink-700) 100%
+  );
+  padding: var(--space-12) 0;
+  text-align: center;
+}
+
+.cta-banner__content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-banner__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-white);
+  margin-bottom: var(--space-4);
+}
+
+.cta-banner__text {
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .cta-banner {
+    padding: var(--space-16) 0;
+  }
+
+  .cta-banner__title {
+    font-size: var(--text-4xl);
+  }
+}
+
+/* ==========================================================================
+   GOLD LINE (shared decorative element)
+   ========================================================================== */
+
+.gold-line {
+  border: none;
+  width: 60px;
+  height: 2px;
+  background: var(--color-gold);
+  margin: var(--space-3) auto;
+  border-radius: var(--radius-full);
+}
+
+.gold-line--left {
+  margin-left: 0;
+}

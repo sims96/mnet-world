@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - Mnet's World Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <!-- Mobile Header -->
+    <div class="mobile-header"></div>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar"></aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="page-header">
+        <h1>Messages</h1>
+        <span class="badge badge-info" id="unread-count" style="font-size: 0.875rem; padding: 4px 12px;"></span>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 30px;"></th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messages-table">
+                <tr>
+                  <td colspan="7">
+                    <div class="loading-state" style="padding: 2rem;">
+                      <div class="loading-spinner"></div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Detail Modal -->
+      <div class="modal-overlay" id="message-modal">
+        <div class="modal" style="max-width: 560px; text-align: left;">
+          <h3 id="modal-subject" style="margin-bottom: 0.5rem;"></h3>
+          <p style="margin-bottom: 1rem; color: #6B6B6B; font-size: 0.875rem;">
+            From: <strong id="modal-name"></strong> &lt;<span id="modal-email"></span>&gt;<br>
+            Received: <span id="modal-date"></span>
+          </p>
+          <div id="modal-message" style="white-space: pre-wrap; line-height: 1.6; padding: 1rem; background: #F9FAFB; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9375rem;"></div>
+          <div class="modal-actions" style="justify-content: flex-end;">
+            <button class="btn btn-secondary" onclick="closeMessageModal()">Close</button>
+            <a id="modal-reply" class="btn btn-primary" href="#" target="_blank">Reply via Email</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/admin/auth.js"></script>
+  <script src="/js/admin/messages.js"></script>
+</body>
+</html>

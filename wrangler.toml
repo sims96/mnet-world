@@ -1,0 +1,20 @@
+name = "mnet-world"
+main = "src/index.ts"
+compatibility_date = "2025-12-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mnet-world-db"
+database_id = "3dc4c45e-4c40-4b1a-8d21-40d0151f9f7a"
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "mnet-world-media"
+
+[vars]
+SITE_NAME = "Mnet's World"
+R2_PUBLIC_URL = "https://media.mnetsworld.com"

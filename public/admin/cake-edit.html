@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Cake - Mnet's World Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <!-- Mobile Header -->
+    <div class="mobile-header"></div>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar"></aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="page-header">
+        <h1 id="page-title">Add New Cake</h1>
+        <a href="/admin/cakes.html" class="btn btn-outline">&larr; Back to Cakes</a>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-body">
+          <form id="cake-form">
+            <!-- Image Upload -->
+            <div class="form-group">
+              <label class="form-label">Cake Image</label>
+              <div id="image-upload" class="upload-zone">
+                <div class="upload-icon">&#128247;</div>
+                <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+                <div class="upload-hint">JPEG, PNG or WebP (max 5MB)</div>
+                <input type="file" id="image-file" accept="image/jpeg,image/png,image/webp">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Name -->
+              <div class="form-group">
+                <label class="form-label" for="cake-name">Name <span class="required">*</span></label>
+                <input type="text" id="cake-name" class="form-input" placeholder="e.g. Chocolate Dream Cake" required>
+              </div>
+
+              <!-- Price -->
+              <div class="form-group">
+                <label class="form-label" for="cake-price">Price (USD) <span class="required">*</span></label>
+                <input type="number" id="cake-price" class="form-input" placeholder="29.99" step="0.01" min="0" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Category -->
+              <div class="form-group">
+                <label class="form-label" for="cake-category">Category</label>
+                <select id="cake-category" class="form-select">
+                  <option value="">Select a category</option>
+                </select>
+              </div>
+
+              <!-- Display Order -->
+              <div class="form-group">
+                <label class="form-label" for="cake-order">Display Order</label>
+                <input type="number" id="cake-order" class="form-input" placeholder="0" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label class="form-label" for="cake-description">Description</label>
+              <textarea id="cake-description" class="form-textarea" placeholder="Describe this delicious cake..." rows="4"></textarea>
+            </div>
+
+            <!-- Toggles -->
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-checkbox">
+                  <input type="checkbox" id="cake-featured">
+                  <label for="cake-featured">Featured Cake</label>
+                </div>
+                <p class="form-help">Featured cakes appear prominently on the home page.</p>
+              </div>
+
+              <div class="form-group">
+                <div class="form-checkbox">
+                  <input type="checkbox" id="cake-available" checked>
+                  <label for="cake-available">Available for Order</label>
+                </div>
+                <p class="form-help">Uncheck to temporarily hide this cake from the menu.</p>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="save-btn">Save Cake</button>
+              <a href="/admin/cakes.html" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/admin/auth.js"></script>
+  <script src="/js/admin/media.js"></script>
+  <script src="/js/admin/cakes.js"></script>
+</body>
+</html>

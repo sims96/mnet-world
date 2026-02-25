@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Mnet's World Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <!-- Mobile Header -->
+    <div class="mobile-header"></div>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar"></aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="page-header">
+        <h1>Welcome back!</h1>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon pink">&#127874;</div>
+          <div>
+            <div class="stat-value" id="stat-cakes">-</div>
+            <div class="stat-label">Total Cakes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">&#128221;</div>
+          <div>
+            <div class="stat-value" id="stat-blog">-</div>
+            <div class="stat-label">Blog Posts</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">&#10084;&#65039;</div>
+          <div>
+            <div class="stat-value" id="stat-humanitarian">-</div>
+            <div class="stat-label">Humanitarian Entries</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">&#128233;</div>
+          <div>
+            <div class="stat-value" id="stat-messages">-</div>
+            <div class="stat-label">Unread Messages</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="/admin/cake-edit.html" class="quick-action-btn">
+          <span class="qa-icon">+</span>
+          Add New Cake
+        </a>
+        <a href="/admin/blog-edit.html" class="quick-action-btn">
+          <span class="qa-icon">+</span>
+          Write Blog Post
+        </a>
+        <a href="/admin/humanitarian-edit.html" class="quick-action-btn">
+          <span class="qa-icon">+</span>
+          Add Humanitarian Entry
+        </a>
+      </div>
+
+      <!-- Recent Messages -->
+      <div class="admin-card">
+        <div class="card-header">
+          <h2>Recent Messages</h2>
+          <a href="/admin/messages.html" class="btn btn-sm btn-outline">View All</a>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recent-messages">
+                <tr>
+                  <td colspan="5" class="table-empty">
+                    <div class="loading-state" style="padding: 2rem;">
+                      <div class="loading-spinner"></div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/js/admin/auth.js"></script>
+  <script src="/js/admin/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Browse Mnet's World handcrafted cakes, macarons, cupcakes, and pastries. Order via WhatsApp for delivery." />
+  <meta name="theme-color" content="#D4607A" />
+
+  <title>Our Cakes | Mnet's World</title>
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/shop.css" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Our Cakes | Mnet's World" />
+  <meta property="og:description" content="Browse Mnet's World handcrafted cakes, macarons, cupcakes, and pastries. Order via WhatsApp." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mnetsworld.com/shop" />
+</head>
+
+<body>
+
+  <!-- ====================================================================
+       NAVIGATION
+       ==================================================================== -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+
+      <!-- Logo -->
+      <a href="/" class="nav__logo" aria-label="Mnet's World - Home">
+        <img src="/images/logo.jpeg" alt="Mnet's World" />
+      </a>
+
+      <!-- Brand name (centered) -->
+      <span class="nav__brand">Mnet's World</span>
+
+      <!-- Desktop Links -->
+      <ul class="nav__links" role="menubar">
+        <li role="none"><a href="/" class="nav__link" role="menuitem">Home</a></li>
+        <li role="none"><a href="/shop" class="nav__link active" role="menuitem">Cakes</a></li>
+        <li role="none"><a href="/blog" class="nav__link" role="menuitem">Blog</a></li>
+        <li role="none"><a href="/humanitarian" class="nav__link" role="menuitem">Humanitarian</a></li>
+        <li role="none"><a href="/about" class="nav__link" role="menuitem">About</a></li>
+        <li role="none"><a href="/contact" class="nav__link" role="menuitem">Contact</a></li>
+        <li role="none" class="nav__cta">
+          <a href="/shop" class="btn btn-primary btn-sm">Order Now</a>
+        </li>
+      </ul>
+
+      <!-- Hamburger (mobile) -->
+      <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="nav__hamburger-line"></span>
+        <span class="nav__hamburger-line"></span>
+        <span class="nav__hamburger-line"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay -->
+  <div class="nav__overlay" aria-hidden="true"></div>
+
+  <!-- Mobile Menu -->
+  <div class="nav__mobile" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+    <div class="nav__mobile-header">
+      <a href="/" class="nav__mobile-logo"><img src="/images/logo.jpeg" alt="Mnet's World" /></a>
+      <hr class="gold-line" aria-hidden="true" />
+    </div>
+    <a href="/" class="nav__mobile-link">Home</a>
+    <a href="/shop" class="nav__mobile-link active">Cakes</a>
+    <a href="/blog" class="nav__mobile-link">Blog</a>
+    <a href="/humanitarian" class="nav__mobile-link">Humanitarian</a>
+    <a href="/about" class="nav__mobile-link">About</a>
+    <a href="/contact" class="nav__mobile-link">Contact</a>
+    <div class="nav__mobile-cta">
+      <a href="/shop" class="btn btn-primary btn-lg" style="width:100%;">Order Now</a>
+    </div>
+    <div class="nav__mobile-social">
+      <a href="https://www.facebook.com/mnetsworld" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/mnetsworld" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <a href="https://www.tiktok.com/@mnetsworld" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.17v-3.44a4.85 4.85 0 01-3.15-1.19 4.83 4.83 0 01-1.68-3.85h3.45a1.4 1.4 0 001.38 0z"/></svg></a>
+      <a href="https://www.youtube.com/@mnetsworld" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    </div>
+  </div>
+
+
+  <!-- ====================================================================
+       PAGE HEADER
+       ==================================================================== -->
+  <section class="shop-header" aria-label="Shop page header">
+    <div class="container">
+      <div class="shop-header__content animate-fade-in-up">
+        <h1 class="shop-header__title">Our Cakes</h1>
+        <hr class="gold-line" aria-hidden="true" />
+        <p class="shop-header__subtitle">Handcrafted with love, baked with passion</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================================================================
+       CATEGORY FILTER TABS
+       ==================================================================== -->
+  <section class="section shop-filters" aria-label="Filter cakes by category">
+    <div class="container">
+      <div class="tabs shop-tabs" id="category-tabs" role="tablist" aria-label="Cake categories">
+        <button class="tab active" data-category="" role="tab" aria-selected="true">All</button>
+        <!-- Dynamic category tabs injected by shop.js -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================================================================
+       PRODUCT GRID
+       ==================================================================== -->
+  <section class="section shop-products" aria-label="Cake products">
+    <div class="container">
+      <div class="grid grid-4 shop-grid" id="shop-grid">
+        <!-- Cake cards injected by shop.js -->
+      </div>
+
+      <!-- Empty state (hidden by default, shown by JS) -->
+      <div class="empty-state shop-empty" id="shop-empty" style="display:none;">
+        <div class="empty-state__icon" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/>
+            <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/>
+            <path d="M2 21h20"/>
+            <path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/>
+            <path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/>
+          </svg>
+        </div>
+        <h3 class="empty-state__title">No Cakes Found</h3>
+        <p class="empty-state__text">We don't have any cakes in this category yet. Check back soon!</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ====================================================================
+       FOOTER
+       ==================================================================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+
+        <!-- Brand Column -->
+        <div class="footer__brand">
+          <a href="/" class="footer__logo"><img src="/images/logo.jpeg" alt="Mnet's World" /></a>
+          <p class="footer__tagline">
+            Handcrafted cakes, food, and lifestyle content. Made with love from Cameroon to your table.
+          </p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/mnetsworld" class="footer__social-link footer__social-link--facebook" aria-label="Follow us on Facebook" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/mnetsworld" class="footer__social-link" aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@mnetsworld" class="footer__social-link" aria-label="Follow us on TikTok" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.17v-3.44a4.85 4.85 0 01-3.15-1.19 4.83 4.83 0 01-1.68-3.85h3.45a1.4 1.4 0 001.38 0z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@mnetsworld" class="footer__social-link" aria-label="Subscribe on YouTube" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="footer__heading">Quick Links</h3>
+          <ul class="footer__list">
+            <li><a href="/" class="footer__link">Home</a></li>
+            <li><a href="/shop" class="footer__link">Order Cakes</a></li>
+            <li><a href="/blog" class="footer__link">Blog</a></li>
+            <li><a href="/humanitarian" class="footer__link">Humanitarian</a></li>
+            <li><a href="/about" class="footer__link">About Mnet</a></li>
+          </ul>
+        </div>
+
+        <!-- Categories -->
+        <div>
+          <h3 class="footer__heading">Categories</h3>
+          <ul class="footer__list">
+            <li><a href="/shop?category=custom-cakes" class="footer__link">Custom Cakes</a></li>
+            <li><a href="/shop?category=macarons" class="footer__link">Macarons</a></li>
+            <li><a href="/shop?category=cupcakes" class="footer__link">Cupcakes</a></li>
+            <li><a href="/shop?category=pastries" class="footer__link">Pastries</a></li>
+            <li><a href="/shop?category=specialty" class="footer__link">Specialty Items</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="footer__heading">Contact</h3>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <a href="mailto:hello@mnetsworld.com">hello@mnetsworld.com</a>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <a href="tel:+1234567890">+1 (234) 567-890</a>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <span>Based in the USA</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; 2026 <a href="/">Mnet's World</a>. All rights reserved.
+          Made with love.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ====================================================================
+       SCROLL TO TOP BUTTON
+       ==================================================================== -->
+  <button class="scroll-top" aria-label="Scroll to top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+
+  <!-- ====================================================================
+       SCRIPTS
+       ==================================================================== -->
+  <script src="/js/main.js"></script>
+  <script src="/js/shop.js"></script>
+
+</body>
+</html>

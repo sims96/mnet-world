@@ -1,0 +1,517 @@
+/* ==========================================================================
+   Mnet's World - About Page Styles
+   Hero, bio, mission values, stats, CTA section.
+   ========================================================================== */
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+
+.about-hero {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-pink-200) 0%,
+    var(--color-pink-100) 30%,
+    var(--color-cream) 70%,
+    var(--color-pink-50) 100%
+  );
+  overflow: hidden;
+  padding: calc(var(--nav-height) + var(--space-8)) 0 var(--space-10);
+  text-align: center;
+}
+
+.about-hero__content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-hero__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-3);
+}
+
+.about-hero__title em {
+  font-family: var(--font-script);
+  font-style: normal;
+  color: var(--color-pink-500);
+  font-size: 1.1em;
+}
+
+.about-hero__subtitle {
+  font-family: var(--font-script);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+}
+
+@media (min-width: 768px) {
+  .about-hero {
+    min-height: 440px;
+    padding: var(--space-16) 0;
+  }
+
+  .about-hero__title {
+    font-size: var(--text-5xl);
+  }
+
+  .about-hero__subtitle {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-hero {
+    min-height: 480px;
+  }
+
+  .about-hero__title {
+    font-size: var(--text-6xl);
+  }
+}
+
+/* ==========================================================================
+   BIO SECTION
+   ========================================================================== */
+
+.about-bio__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  text-align: center;
+}
+
+/* Profile image container */
+.about-bio__image {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.about-bio__image-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--color-pink-200);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, var(--color-pink-100), var(--color-cream));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+.about-bio__image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-bio__image-icon {
+  opacity: 0.3;
+}
+
+/* Decorative ring behind the profile image */
+.about-bio__image-ring {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  border-radius: 50%;
+  border: 2px dashed var(--color-gold-light);
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Bio text */
+.about-bio__content {
+  max-width: 620px;
+}
+
+.about-bio__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.about-bio__script {
+  font-family: var(--font-script);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.about-bio__text {
+  font-size: var(--text-base);
+  color: var(--color-text-light);
+  line-height: var(--leading-loose);
+  margin-bottom: var(--space-4);
+}
+
+.about-bio__text:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .about-bio__image-circle {
+    width: 260px;
+    height: 260px;
+  }
+
+  .about-bio__title {
+    font-size: var(--text-3xl);
+  }
+
+  .about-bio__text {
+    font-size: var(--text-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-bio__inner {
+    flex-direction: row;
+    text-align: left;
+    gap: var(--space-12);
+  }
+
+  .about-bio__image-circle {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ==========================================================================
+   LIFESTYLE GALLERY — "My World"
+   ========================================================================== */
+
+.about-lifestyle {
+  background: var(--color-cream);
+}
+
+.lifestyle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .lifestyle-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+.lifestyle-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.lifestyle-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.lifestyle-card__image {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.lifestyle-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s ease;
+}
+
+.lifestyle-card:hover .lifestyle-card__image img {
+  transform: scale(1.05);
+}
+
+.lifestyle-card__caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-4) var(--space-3);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  color: var(--color-white);
+  font-family: var(--font-script);
+  font-size: var(--text-lg);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .lifestyle-card__caption {
+    font-size: var(--text-xl);
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+/* ==========================================================================
+   MISSION / VALUE CARDS
+   ========================================================================== */
+
+.about-value-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  border: 1px solid var(--color-pink-100);
+}
+
+.about-value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.about-value-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-pink-50), var(--color-cream));
+  color: var(--color-pink-500);
+  margin-bottom: var(--space-5);
+  transition: transform var(--transition-base);
+}
+
+.about-value-card:hover .about-value-card__icon {
+  transform: scale(1.1);
+}
+
+.about-value-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.about-value-card__text {
+  font-size: var(--text-sm);
+  color: var(--color-text-light);
+  line-height: var(--leading-normal);
+}
+
+@media (min-width: 768px) {
+  .about-value-card {
+    padding: var(--space-10) var(--space-8);
+  }
+
+  .about-value-card__text {
+    font-size: var(--text-base);
+  }
+}
+
+/* ==========================================================================
+   STATS / JOURNEY SECTION
+   ========================================================================== */
+
+.about-stats {
+  background: linear-gradient(
+    135deg,
+    var(--color-pink-100) 0%,
+    var(--color-pink-50) 50%,
+    var(--color-cream) 100%
+  );
+}
+
+.about-stats__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .about-stats__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.about-stat {
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.about-stat__number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-pink-500);
+  margin-bottom: var(--space-2);
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .about-stat__number {
+    font-size: var(--text-5xl);
+  }
+}
+
+.about-stat__label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.about-stat__detail {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   CTA - LET'S CONNECT
+   ========================================================================== */
+
+.about-cta {
+  background: var(--color-white);
+}
+
+.about-cta__inner {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.about-cta__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .about-cta__title {
+    font-size: var(--text-4xl);
+  }
+}
+
+.about-cta__script {
+  font-family: var(--font-script);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.about-cta__text {
+  font-size: var(--text-base);
+  color: var(--color-text-light);
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .about-cta__text {
+    font-size: var(--text-lg);
+  }
+}
+
+/* Social links row */
+.about-cta__social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.about-cta__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-cream-dark);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-base);
+  border: 2px solid transparent;
+}
+
+.about-cta__social-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.about-cta__social-link--facebook:hover {
+  background: var(--color-facebook);
+  color: var(--color-white);
+  border-color: var(--color-facebook);
+}
+
+.about-cta__social-link--instagram:hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: var(--color-white);
+  border-color: #dc2743;
+}
+
+.about-cta__social-link--tiktok:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.about-cta__social-link--youtube:hover {
+  background: #FF0000;
+  color: var(--color-white);
+  border-color: #FF0000;
+}
+
+/* Action buttons */
+.about-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+/* ==========================================================================
+   GOLD LINE (shared decorative element - ensuring it exists)
+   ========================================================================== */
+
+.gold-line {
+  border: none;
+  width: 60px;
+  height: 2px;
+  background: var(--color-gold);
+  margin: var(--space-3) auto;
+  border-radius: var(--radius-full);
+}
+
+.gold-line--left {
+  margin-left: 0;
+}
+
+@media (max-width: 1023px) {
+  .gold-line--left {
+    margin-left: auto;
+  }
+}
