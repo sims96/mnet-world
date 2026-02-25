@@ -91,6 +91,10 @@
 
     var activeText = linkMap[path] || '';
 
+    // Handle subpaths: /shop/{slug} → CAKES, /blog/{slug} → BLOG
+    if (!activeText && path.indexOf('/shop/') === 0) activeText = 'CAKES';
+    if (!activeText && path.indexOf('/blog/') === 0) activeText = 'BLOG';
+
     // Desktop links
     document.querySelectorAll('.nav__link').forEach(function (link) {
       link.classList.remove('active');
@@ -228,7 +232,7 @@
       ? '<span class="card-cake__price-badge">' + formatPrice(cake.price_cents) + '</span>'
       : '';
 
-    var link = cake.slug ? '/shop?cake=' + encodeURIComponent(cake.slug) : '/shop';
+    var link = cake.slug ? '/shop/' + encodeURIComponent(cake.slug) : '/shop';
 
     return (
       '<a href="' + link + '" class="card card-cake" aria-label="View ' + escapeHTML(cake.name) + '">' +

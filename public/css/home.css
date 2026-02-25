@@ -7,25 +7,19 @@
 
 .home-hero {
   position: relative;
-  background: linear-gradient(
-    150deg,
-    #F8DDE0 0%,
-    #FDE8E8 25%,
-    #FFF5F5 50%,
-    #FFF8F0 75%,
-    #F5EDE3 100%
-  );
+  background: url('/images/stock/cake-tropical.jpg') center center / cover no-repeat;
 }
 
-/* Subtle animated gradient overlay */
+/* Semi-transparent tinted overlay for text readability */
 .home-hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 70% 50%,
-    rgba(248, 196, 196, 0.3) 0%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(248, 221, 224, 0.88) 0%,
+    rgba(253, 232, 232, 0.82) 40%,
+    rgba(255, 248, 240, 0.78) 100%
   );
   pointer-events: none;
 }

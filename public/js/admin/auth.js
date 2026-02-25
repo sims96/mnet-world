@@ -257,7 +257,7 @@ function buildSidebar(activePage) {
     { id: 'cakes',        href: '/admin/cakes.html',           icon: '\uD83C\uDF82', label: 'Cakes' },
     { id: 'blog',         href: '/admin/blog.html',            icon: '\uD83D\uDCDD', label: 'Blog' },
     { id: 'humanitarian', href: '/admin/humanitarian.html',    icon: '\u2764\uFE0F',  label: 'Humanitarian' },
-    { id: 'messages',     href: '/admin/messages.html',        icon: '\uD83D\uDCE9', label: 'Messages' },
+    { id: 'chat',         href: '/admin/chat.html',            icon: '\uD83D\uDCAC', label: 'Messages' },
   ];
 
   var navHtml = navItems.map(function(item) {

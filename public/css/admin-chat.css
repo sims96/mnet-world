@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Mnet's World - Admin Chat Panel Styles
+   Two-column chat interface for managing visitor conversations
+   ========================================================================== */
+
+/* ── Tabs ──────────────────────────────────────────────────────────────── */
+
+.chat-admin__tabs {
+  display: flex;
+  border-bottom: 2px solid #E5E7EB;
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.chat-admin__tab {
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.chat-admin__tab:hover {
+  color: var(--color-pink-500);
+}
+
+.chat-admin__tab.active {
+  color: var(--color-pink-500);
+  border-bottom-color: var(--color-pink-500);
+}
+
+.chat-admin__tab-content {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chat-admin__tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Main Layout ────────────────────────────────────────────────────────── */
+
+.chat-admin {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Sessions List (Left Panel) ─────────────────────────────────────────── */
+
+.chat-admin__sessions {
+  width: 340px;
+  border-right: 1px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.chat-admin__sessions-header {
+  padding: var(--space-5);
+  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-admin__sessions-header h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.chat-admin__sessions-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Session Item */
+.chat-admin__session-item {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid #F3F4F6;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chat-admin__session-item:hover {
+  background: #F9FAFB;
+}
+
+.chat-admin__session-item.selected {
+  background: var(--color-pink-50);
+  border-left: 3px solid var(--color-pink-500);
+}
+
+.chat-admin__session-item.closed {
+  opacity: 0.6;
+}
+
+.chat-admin__session-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.chat-admin__session-name {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.chat-admin__session-time {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.chat-admin__session-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.chat-admin__session-preview {
+  font-size: var(--text-xs);
+  color: var(--color-text-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.chat-admin__session-badge {
+  min-width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-pink-500);
+  color: var(--color-white);
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
+/* Empty sessions state */
+.chat-admin__sessions-empty {
+  padding: var(--space-10) var(--space-5);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ── Messages Panel (Right) ─────────────────────────────────────────────── */
+
+.chat-admin__messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #F4F0ED;
+  min-width: 0;
+}
+
+.chat-admin__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-admin__conversation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Conversation header */
+.chat-admin__conv-header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid #E5E7EB;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.chat-admin__conv-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chat-admin__conv-info strong {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+}
+
+.chat-admin__back-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: var(--text-xl);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text);
+}
+
+/* Messages area */
+.chat-admin__conv-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Message bubbles */
+.chat-admin__msg {
+  max-width: 70%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  word-wrap: break-word;
+}
+
+.chat-admin__msg--visitor {
+  align-self: flex-start;
+  background: var(--color-white);
+  color: var(--color-text);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.chat-admin__msg--admin {
+  align-self: flex-end;
+  background: var(--color-pink-500);
+  color: var(--color-white);
+  border-radius: var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
+}
+
+.chat-admin__msg-time {
+  font-size: 10px;
+  margin-top: 4px;
+  display: block;
+  opacity: 0.6;
+}
+
+/* Reply input */
+.chat-admin__conv-input {
+  padding: var(--space-4);
+  border-top: 1px solid #E5E7EB;
+  background: var(--color-white);
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.chat-admin__conv-input textarea {
+  flex: 1;
+  resize: none;
+  max-height: 100px;
+  border-radius: var(--radius-md);
+}
+
+.chat-admin__conv-input .btn {
+  flex-shrink: 0;
+  height: 42px;
+}
+
+/* ── Mobile Layout ──────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .chat-admin__sessions {
+    width: 100%;
+  }
+
+  .chat-admin__messages {
+    display: none;
+  }
+
+  .chat-admin.conv-active .chat-admin__sessions {
+    display: none;
+  }
+
+  .chat-admin.conv-active .chat-admin__messages {
+    display: flex;
+  }
+
+  .chat-admin__back-btn {
+    display: block;
+  }
+
+  .chat-admin__msg {
+    max-width: 85%;
+  }
+}

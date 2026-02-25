@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { slugify } from '../lib/slugify';
 import { deleteFromR2 } from '../lib/r2';
-import type { Env, Cake, Category } from '../types';
+import type { Env, Cake, CakeImage, Category } from '../types';
 
 type AdminEnv = { Bindings: Env; Variables: { adminId: number; username: string } };
 
@@ -150,7 +150,11 @@ adminCakes.get('/:id', async (c) => {
       return c.json({ error: 'Cake not found' }, 404);
     }
 
-    return c.json({ cake });
+    const { results: images } = await c.env.DB.prepare(
+      'SELECT * FROM cake_images WHERE cake_id = ? ORDER BY display_order ASC'
+    ).bind(id).all<CakeImage>();
+
+    return c.json({ cake, images });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cake' }, 500);
   }
@@ -287,11 +291,104 @@ adminCakes.delete('/:id', async (c) => {
       }
     }
 
+    // Delete gallery images from R2
+    const { results: galleryImages } = await c.env.DB.prepare(
+      'SELECT image_key FROM cake_images WHERE cake_id = ?'
+    ).bind(id).all<{ image_key: string | null }>();
+
+    for (const img of galleryImages) {
+      if (img.image_key) {
+        try {
+          await deleteFromR2(c.env.MEDIA_BUCKET, img.image_key);
+        } catch {
+          // Continue even if R2 delete fails
+        }
+      }
+    }
+
+    await c.env.DB.prepare('DELETE FROM cake_images WHERE cake_id = ?').bind(id).run();
     await c.env.DB.prepare('DELETE FROM cakes WHERE id = ?').bind(id).run();
 
     return c.json({ success: true });
   } catch (e) {
     return c.json({ error: 'Failed to delete cake' }, 500);
+  }
+});
+
+// ── Gallery Images ─────────────────────────────────────────────────────
+
+// POST /:id/images - add gallery image
+adminCakes.post('/:id/images', async (c) => {
+  try {
+    const cakeId = parseInt(c.req.param('id'));
+    const body = await c.req.json<{
+      image_url: string;
+      image_key?: string;
+      display_order?: number;
+    }>();
+
+    if (!body.image_url) {
+      return c.json({ error: 'Image URL is required' }, 400);
+    }
+
+    // Verify cake exists
+    const cake = await c.env.DB.prepare('SELECT id FROM cakes WHERE id = ?').bind(cakeId).first();
+    if (!cake) {
+      return c.json({ error: 'Cake not found' }, 404);
+    }
+
+    const result = await c.env.DB.prepare(
+      'INSERT INTO cake_images (cake_id, image_url, image_key, display_order) VALUES (?, ?, ?, ?)'
+    ).bind(
+      cakeId,
+      body.image_url,
+      body.image_key || null,
+      body.display_order ?? 0
+    ).run();
+
+    return c.json({
+      success: true,
+      image: {
+        id: result.meta.last_row_id,
+        cake_id: cakeId,
+        image_url: body.image_url,
+        image_key: body.image_key || null,
+        display_order: body.display_order ?? 0,
+      },
+    }, 201);
+  } catch (e) {
+    return c.json({ error: 'Failed to add image' }, 500);
+  }
+});
+
+// DELETE /:id/images/:imageId - remove gallery image
+adminCakes.delete('/:id/images/:imageId', async (c) => {
+  try {
+    const cakeId = parseInt(c.req.param('id'));
+    const imageId = parseInt(c.req.param('imageId'));
+
+    const image = await c.env.DB.prepare(
+      'SELECT * FROM cake_images WHERE id = ? AND cake_id = ?'
+    ).bind(imageId, cakeId).first<CakeImage>();
+
+    if (!image) {
+      return c.json({ error: 'Image not found' }, 404);
+    }
+
+    // Delete from R2 if has key
+    if (image.image_key) {
+      try {
+        await deleteFromR2(c.env.MEDIA_BUCKET, image.image_key);
+      } catch {
+        // Continue even if R2 delete fails
+      }
+    }
+
+    await c.env.DB.prepare('DELETE FROM cake_images WHERE id = ?').bind(imageId).run();
+
+    return c.json({ success: true });
+  } catch (e) {
+    return c.json({ error: 'Failed to delete image' }, 500);
   }
 });
 

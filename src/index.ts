@@ -8,6 +8,7 @@ import adminCakesRoutes from './routes/admin-cakes';
 import adminBlogRoutes from './routes/admin-blog';
 import adminHumanitarianRoutes from './routes/admin-humanitarian';
 import adminMediaRoutes from './routes/admin-media';
+import { publicChatRoutes, adminChatRoutes } from './routes/chat';
 import type { Env } from './types';
 
 const app = new Hono<{ Bindings: Env }>();
@@ -23,6 +24,7 @@ app.use('/api/*', cors({
 
 // Public API routes
 app.route('/api/public', publicRoutes);
+app.route('/api/chat', publicChatRoutes);
 
 // Contact form - POST is public
 app.post('/api/contact', async (c) => {
@@ -62,6 +64,7 @@ app.route('/api/admin/cakes', adminCakesRoutes);
 app.route('/api/admin/blog', adminBlogRoutes);
 app.route('/api/admin/humanitarian', adminHumanitarianRoutes);
 app.route('/api/admin/media', adminMediaRoutes);
+app.route('/api/admin/chat', adminChatRoutes);
 
 // Admin contact management routes (GET, PUT, DELETE)
 app.get('/api/admin/contact', async (c) => {
@@ -103,6 +106,17 @@ app.delete('/api/admin/contact/:id', async (c) => {
 app.get('/blog/:slug', async (c) => {
   try {
     const assetUrl = new URL('/blog-post.html', c.req.url);
+    return c.env.ASSETS.fetch(new Request(assetUrl.toString()));
+  } catch {
+    const assetUrl = new URL('/', c.req.url);
+    return c.env.ASSETS.fetch(new Request(assetUrl.toString()));
+  }
+});
+
+// Dynamic product detail page route - serve product.html via ASSETS
+app.get('/shop/:slug', async (c) => {
+  try {
+    const assetUrl = new URL('/product.html', c.req.url);
     return c.env.ASSETS.fetch(new Request(assetUrl.toString()));
   } catch {
     const assetUrl = new URL('/', c.req.url);

@@ -113,13 +113,17 @@
         '</a>' +
       '</div>';
 
+    var detailLink = cake.slug ? '/shop/' + encodeURIComponent(cake.slug) : '/shop';
+
     return (
       '<div class="card card-cake">' +
         priceBadge +
-        imageHTML +
+        '<a href="' + detailLink + '" aria-label="View ' + escapeHTML(cake.name) + '">' +
+          imageHTML +
+        '</a>' +
         '<div class="card__body">' +
           categoryHTML +
-          '<h3 class="card__title">' + escapeHTML(cake.name) + '</h3>' +
+          '<h3 class="card__title"><a href="' + detailLink + '">' + escapeHTML(cake.name) + '</a></h3>' +
           pricesHTML +
           whatsappBtn +
         '</div>' +

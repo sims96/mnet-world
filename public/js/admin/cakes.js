@@ -110,6 +110,7 @@ async function deleteCake(id, name) {
 
 var currentCakeId = null;
 var imageData = { url: null, key: null };
+var galleryImages = [];
 
 async function initCakeForm() {
   var editId = getQueryParam('id');
@@ -129,9 +130,11 @@ async function initCakeForm() {
   // Load categories
   loadCategories();
 
-  // If editing, load cake data
+  // If editing, load cake data and show gallery section
   if (currentCakeId) {
     await loadCakeData(currentCakeId);
+    initGalleryUpload();
+    document.getElementById('gallery-section').style.display = '';
   }
 
   // Form submit handler
@@ -188,6 +191,12 @@ async function loadCakeData(id) {
     if (cake.image_url) {
       imageData = { url: cake.image_url, key: cake.image_key };
       setExistingImage('image-upload', cake.image_url, cake.image_key);
+    }
+
+    // Load gallery images
+    if (data.images && data.images.length > 0) {
+      galleryImages = data.images;
+      renderGalleryGrid();
     }
   } catch (e) {
     showToast('Failed to load cake: ' + e.message, 'error');
@@ -252,5 +261,116 @@ async function saveCake() {
     showToast('Failed to save: ' + e.message, 'error');
     btn.disabled = false;
     btn.textContent = 'Save Cake';
+  }
+}
+
+/* ── Gallery Image Management ──────────────────────────────────────────── */
+
+function renderGalleryGrid() {
+  var grid = document.getElementById('gallery-grid');
+  if (!grid) return;
+
+  if (galleryImages.length === 0) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = galleryImages.map(function(img) {
+    return '<div class="gallery-thumb" data-id="' + img.id + '">' +
+      '<img src="' + escapeHtml(img.image_url) + '" alt="Gallery image">' +
+      '<button type="button" class="remove-image" title="Remove image" onclick="deleteGalleryImage(' + img.id + ')">&times;</button>' +
+    '</div>';
+  }).join('');
+}
+
+function initGalleryUpload() {
+  var zone = document.getElementById('gallery-upload');
+  var fileInput = document.getElementById('gallery-file');
+  if (!zone || !fileInput) return;
+
+  zone.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-image')) return;
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', function() {
+    if (fileInput.files && fileInput.files.length > 0) {
+      for (var i = 0; i < fileInput.files.length; i++) {
+        uploadGalleryImage(fileInput.files[i]);
+      }
+      fileInput.value = '';
+    }
+  });
+
+  // Drag events
+  zone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    zone.classList.add('dragover');
+  });
+
+  zone.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    zone.classList.remove('dragover');
+  });
+
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    zone.classList.remove('dragover');
+    var files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      for (var i = 0; i < files.length; i++) {
+        uploadGalleryImage(files[i]);
+      }
+    }
+  });
+}
+
+async function uploadGalleryImage(file) {
+  // Validate type
+  var allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  if (allowedTypes.indexOf(file.type) === -1) {
+    showToast('Invalid file type: ' + file.name, 'error');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('File too large: ' + file.name, 'error');
+    return;
+  }
+
+  try {
+    // Upload to R2
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('type', 'general');
+    var uploadData = await adminUpload('/api/admin/media/upload', formData);
+
+    // Save to cake_images
+    var imgData = await adminApi('POST', '/api/admin/cakes/' + currentCakeId + '/images', {
+      image_url: uploadData.url,
+      image_key: uploadData.key,
+      display_order: galleryImages.length,
+    });
+
+    galleryImages.push(imgData.image);
+    renderGalleryGrid();
+    showToast('Image added!', 'success');
+  } catch (e) {
+    showToast('Upload failed: ' + e.message, 'error');
+  }
+}
+
+async function deleteGalleryImage(imageId) {
+  if (!confirm('Remove this image?')) return;
+
+  try {
+    await adminApi('DELETE', '/api/admin/cakes/' + currentCakeId + '/images/' + imageId);
+    galleryImages = galleryImages.filter(function(img) { return img.id !== imageId; });
+    renderGalleryGrid();
+    showToast('Image removed.', 'success');
+  } catch (e) {
+    showToast('Failed to remove: ' + e.message, 'error');
   }
 }

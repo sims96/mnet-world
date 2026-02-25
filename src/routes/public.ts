@@ -60,7 +60,11 @@ publicRoutes.get('/cakes/:slug', async (c) => {
       return c.json({ error: 'Cake not found' }, 404);
     }
 
-    return c.json({ cake });
+    const { results: images } = await c.env.DB.prepare(
+      'SELECT id, image_url, display_order FROM cake_images WHERE cake_id = ? ORDER BY display_order ASC'
+    ).bind((cake as any).id).all();
+
+    return c.json({ cake, images });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cake' }, 500);
   }

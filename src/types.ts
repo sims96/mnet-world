@@ -42,6 +42,15 @@ export interface Cake {
   updated_at: string;
 }
 
+export interface CakeImage {
+  id: number;
+  cake_id: number;
+  image_url: string;
+  image_key: string | null;
+  display_order: number;
+  created_at: string;
+}
+
 export interface BlogPost {
   id: number;
   title: string;
@@ -86,4 +95,23 @@ export interface SiteSetting {
   key: string;
   value: string;
   updated_at: string;
+}
+
+export interface ChatSession {
+  id: number;
+  visitor_name: string;
+  session_token: string;
+  status: string;
+  last_message_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  session_id: number;
+  sender_type: string;
+  message: string;
+  is_read: number;
+  created_at: string;
 }

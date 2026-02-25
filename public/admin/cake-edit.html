@@ -29,15 +29,28 @@
       <div class="admin-card">
         <div class="card-body">
           <form id="cake-form">
-            <!-- Image Upload -->
+            <!-- Cover Image Upload -->
             <div class="form-group">
-              <label class="form-label">Cake Image</label>
+              <label class="form-label">Cover Image</label>
               <div id="image-upload" class="upload-zone">
                 <div class="upload-icon">&#128247;</div>
                 <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
                 <div class="upload-hint">JPEG, PNG or WebP (max 5MB)</div>
                 <input type="file" id="image-file" accept="image/jpeg,image/png,image/webp">
               </div>
+            </div>
+
+            <!-- Gallery Images (only shown when editing) -->
+            <div class="form-group" id="gallery-section" style="display:none;">
+              <label class="form-label">Additional Images</label>
+              <div id="gallery-grid" class="gallery-grid"></div>
+              <div id="gallery-upload" class="upload-zone upload-zone--small">
+                <div class="upload-icon">&#128247;</div>
+                <div class="upload-text"><strong>Add more images</strong></div>
+                <div class="upload-hint">JPEG, PNG or WebP (max 5MB each)</div>
+                <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/webp" multiple>
+              </div>
+              <p class="gallery-note">Gallery images are saved immediately when uploaded.</p>
             </div>
 
             <div class="form-row">
