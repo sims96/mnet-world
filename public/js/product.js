@@ -81,14 +81,18 @@
   function renderGallery(cake, images) {
     allImages = [];
 
-    // Build image array: cover first, then gallery images
+    // Build media array: cover first, then gallery images/videos
     if (cake.image_url) {
-      allImages.push(cake.image_url);
+      allImages.push({ url: cake.image_url, type: 'image', poster: null });
     }
     if (images && images.length > 0) {
       images.forEach(function (img) {
         if (img.image_url && img.image_url !== cake.image_url) {
-          allImages.push(img.image_url);
+          allImages.push({
+            url: img.image_url,
+            type: img.media_type === 'video' ? 'video' : 'image',
+            poster: img.poster_url || null
+          });
         }
       });
     }
@@ -104,10 +108,20 @@
     // Render thumbnails only if more than 1 image
     if (allImages.length > 1 && galleryThumbsEl) {
       var thumbsHTML = '';
-      allImages.forEach(function (url, i) {
+      allImages.forEach(function (media, i) {
+        var isVideo = media.type === 'video';
+        var thumbInner;
+        if (isVideo && media.poster) {
+          thumbInner = '<img src="' + escapeHTML(media.poster) + '" alt="Play video ' + (i + 1) + '" loading="lazy" />';
+        } else if (isVideo) {
+          thumbInner = '<video src="' + escapeHTML(media.url) + '#t=0.5" muted playsinline preload="metadata" aria-hidden="true"></video>';
+        } else {
+          thumbInner = '<img src="' + escapeHTML(media.url) + '" alt="View image ' + (i + 1) + '" loading="lazy" />';
+        }
         thumbsHTML +=
-          '<button class="product-gallery__thumb' + (i === 0 ? ' active' : '') + '" data-index="' + i + '">' +
-            '<img src="' + escapeHTML(url) + '" alt="View image ' + (i + 1) + '" loading="lazy" />' +
+          '<button class="product-gallery__thumb' + (isVideo ? ' product-gallery__thumb--video' : '') + (i === 0 ? ' active' : '') + '" data-index="' + i + '"' +
+            (isVideo ? ' aria-label="Play video ' + (i + 1) + '"' : '') + '>' +
+            thumbInner +
           '</button>';
       });
       galleryThumbsEl.innerHTML = thumbsHTML;
@@ -127,8 +141,16 @@
     if (!galleryMainEl || !allImages[index]) return;
     currentImageIndex = index;
 
-    galleryMainEl.innerHTML =
-      '<img src="' + escapeHTML(allImages[index]) + '" alt="' + escapeHTML(altText || 'Cake') + '" />';
+    var media = allImages[index];
+    if (media.type === 'video') {
+      galleryMainEl.innerHTML =
+        '<video class="product-gallery__video" src="' + escapeHTML(media.url) + '"' +
+          (media.poster ? ' poster="' + escapeHTML(media.poster) + '"' : '') +
+          ' controls playsinline preload="metadata"></video>';
+    } else {
+      galleryMainEl.innerHTML =
+        '<img src="' + escapeHTML(media.url) + '" alt="' + escapeHTML(altText || 'Cake') + '" />';
+    }
   }
 
   function updateActiveThumbnail(index) {
@@ -273,6 +295,8 @@
 
   document.addEventListener('keydown', function (e) {
     if (allImages.length <= 1) return;
+    // Let a focused video player use arrow keys for seeking
+    if (e.target && e.target.tagName === 'VIDEO') return;
 
     if (e.key === 'ArrowLeft') {
       var prevIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;

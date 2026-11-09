@@ -195,3 +195,139 @@ function getImageData(containerId) {
     key: zone._uploadState.key,
   };
 }
+
+/* ==========================================================================
+   Video Upload Component
+   ========================================================================== */
+
+function initVideoUpload(containerId, onUpload) {
+  var zone = document.getElementById(containerId);
+  if (!zone) return;
+
+  var fileInput = zone.querySelector('input[type="file"]');
+
+  zone._uploadState = {
+    url: null,
+    key: null,
+    onUpload: onUpload || function() {},
+  };
+
+  zone.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-video')) return;
+    if (fileInput) fileInput.click();
+  });
+
+  if (fileInput) {
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files && fileInput.files[0]) {
+        handleVideoFile(zone, fileInput.files[0]);
+      }
+    });
+  }
+
+  zone.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', function(e) { e.preventDefault(); e.stopPropagation(); zone.classList.remove('dragover'); });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault(); e.stopPropagation(); zone.classList.remove('dragover');
+    var files = e.dataTransfer.files;
+    if (files && files[0]) handleVideoFile(zone, files[0]);
+  });
+}
+
+function handleVideoFile(zone, file) {
+  var allowedTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
+  if (allowedTypes.indexOf(file.type) === -1) {
+    showToast('Invalid video type. Please use MP4, WebM, or MOV.', 'error');
+    return;
+  }
+  if (file.size > 100 * 1024 * 1024) {
+    showToast('Video too large. Maximum size is 100MB.', 'error');
+    return;
+  }
+
+  zone.innerHTML =
+    '<div class="upload-loading">' +
+      '<div class="upload-spinner"></div>' +
+      '<span style="font-size: 0.875rem; color: #6B6B6B;">Uploading video...</span>' +
+    '</div>';
+  zone.classList.add('has-image');
+
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('type', 'general');
+
+  adminUpload('/api/admin/media/upload', formData)
+    .then(function(data) {
+      zone._uploadState.url = data.url;
+      zone._uploadState.key = data.key;
+      showVideoPreview(zone, data.url);
+      zone._uploadState.onUpload({ url: data.url, key: data.key });
+      showToast('Video uploaded successfully!', 'success');
+    })
+    .catch(function(err) {
+      showToast('Upload failed: ' + err.message, 'error');
+      resetVideoZone(zone);
+    });
+}
+
+function showVideoPreview(zone, url) {
+  zone.innerHTML =
+    '<div class="upload-preview">' +
+      '<video src="' + escapeHtml(url) + '" controls style="max-width:100%;max-height:200px;border-radius:8px;"></video>' +
+      '<button type="button" class="remove-video remove-image" title="Remove video">&times;</button>' +
+    '</div>';
+  zone.classList.add('has-image');
+
+  var removeBtn = zone.querySelector('.remove-video');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      clearVideo(zone.id);
+    });
+  }
+}
+
+function resetVideoZone(zone) {
+  zone.innerHTML =
+    '<div class="upload-icon">&#127909;</div>' +
+    '<div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>' +
+    '<div class="upload-hint">MP4, WebM or MOV (max 100MB)</div>' +
+    '<input type="file" accept="video/mp4,video/webm,video/quicktime">';
+  zone.classList.remove('has-image');
+
+  var fileInput = zone.querySelector('input[type="file"]');
+  if (fileInput) {
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files && fileInput.files[0]) {
+        handleVideoFile(zone, fileInput.files[0]);
+      }
+    });
+  }
+}
+
+function setExistingVideo(containerId, url, key) {
+  var zone = document.getElementById(containerId);
+  if (!zone || !url) return;
+  if (!zone._uploadState) {
+    zone._uploadState = { url: null, key: null, onUpload: function() {} };
+  }
+  zone._uploadState.url = url;
+  zone._uploadState.key = key || null;
+  showVideoPreview(zone, url);
+}
+
+function clearVideo(containerId) {
+  var zone = document.getElementById(containerId);
+  if (!zone) return;
+  if (zone._uploadState) {
+    zone._uploadState.url = null;
+    zone._uploadState.key = null;
+  }
+  resetVideoZone(zone);
+}
+
+function getVideoData(containerId) {
+  var zone = document.getElementById(containerId);
+  if (!zone || !zone._uploadState) return { url: null, key: null };
+  return { url: zone._uploadState.url, key: zone._uploadState.key };
+}

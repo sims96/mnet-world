@@ -47,6 +47,9 @@ export interface CakeImage {
   cake_id: number;
   image_url: string;
   image_key: string | null;
+  media_type: 'image' | 'video';
+  poster_url: string | null;
+  poster_key: string | null;
   display_order: number;
   created_at: string;
 }
@@ -59,6 +62,8 @@ export interface BlogPost {
   content: string;
   cover_image_url: string | null;
   cover_image_key: string | null;
+  video_url: string | null;
+  video_key: string | null;
   category: string | null;
   is_published: number;
   redirect_url: string | null;
@@ -74,6 +79,8 @@ export interface HumanitarianEntry {
   description: string;
   cover_image_url: string | null;
   cover_image_key: string | null;
+  video_url: string | null;
+  video_key: string | null;
   location: string | null;
   activity_date: string | null;
   is_published: number;

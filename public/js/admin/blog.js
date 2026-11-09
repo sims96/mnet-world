@@ -138,6 +138,11 @@ async function initBlogForm() {
     coverImageData = data;
   });
 
+  // Initialize video upload
+  initVideoUpload('video-upload', function(data) {
+    // video data stored in zone._uploadState
+  });
+
   // If editing, load post data
   if (currentPostId) {
     await loadPostData(currentPostId);
@@ -178,6 +183,11 @@ async function loadPostData(id) {
       coverImageData = { url: post.cover_image_url, key: post.cover_image_key };
       setExistingImage('cover-upload', post.cover_image_url, post.cover_image_key);
     }
+
+    // Set video
+    if (post.video_url) {
+      setExistingVideo('video-upload', post.video_url, post.video_key);
+    }
   } catch (e) {
     showToast('Failed to load post: ' + e.message, 'error');
     console.error('Failed to load post:', e);
@@ -210,6 +220,7 @@ async function savePost() {
 
   // Get cover image data
   var img = getImageData('cover-upload');
+  var vid = getVideoData('video-upload');
 
   var payload = {
     title: title,
@@ -219,6 +230,8 @@ async function savePost() {
     redirect_url: redirectUrl || null,
     cover_image_url: img.url || null,
     cover_image_key: img.key || null,
+    video_url: vid.url || null,
+    video_key: vid.key || null,
   };
 
   btn.disabled = true;

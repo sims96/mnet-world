@@ -6,8 +6,11 @@ type AdminEnv = { Bindings: Env; Variables: { adminId: number; username: string 
 
 const adminMedia = new Hono<AdminEnv>();
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
+const ALLOWED_TYPES = [...ALLOWED_IMAGE_TYPES, ...ALLOWED_VIDEO_TYPES];
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
 
 // POST /upload - upload image
 adminMedia.post('/upload', async (c) => {
@@ -29,10 +32,14 @@ adminMedia.post('/upload', async (c) => {
       }, 400);
     }
 
-    // Validate size
-    if (fileObj.size > MAX_SIZE) {
+    // Validate size (different limits for images vs videos)
+    const isVideo = ALLOWED_VIDEO_TYPES.includes(fileObj.type);
+    const maxSize = isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+    const maxSizeMB = maxSize / (1024 * 1024);
+
+    if (fileObj.size > maxSize) {
       return c.json({
-        error: `File too large. Maximum size is 5MB, got ${(fileObj.size / 1024 / 1024).toFixed(2)}MB`,
+        error: `File too large. Maximum size is ${maxSizeMB}MB, got ${(fileObj.size / 1024 / 1024).toFixed(2)}MB`,
       }, 400);
     }
 

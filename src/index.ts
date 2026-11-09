@@ -8,6 +8,7 @@ import adminCakesRoutes from './routes/admin-cakes';
 import adminBlogRoutes from './routes/admin-blog';
 import adminHumanitarianRoutes from './routes/admin-humanitarian';
 import adminMediaRoutes from './routes/admin-media';
+import mediaRoutes from './routes/media';
 import { publicChatRoutes, adminChatRoutes } from './routes/chat';
 import type { Env } from './types';
 
@@ -123,6 +124,9 @@ app.get('/shop/:slug', async (c) => {
     return c.env.ASSETS.fetch(new Request(assetUrl.toString()));
   }
 });
+
+// Media proxy - serve R2 content
+app.route('/media', mediaRoutes);
 
 // Fallback: serve static assets
 app.get('*', async (c) => {

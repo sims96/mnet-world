@@ -9,9 +9,9 @@ INSERT INTO site_settings (key, value) VALUES
     ('hero_title', 'Delight in every bite!'),
     ('hero_subtitle', 'Sharing food, lifestyle & everyday joy. Cakes, cooking, wellness & real moments.'),
     ('about_text', 'Welcome to Mnet''s World! I am a passionate food and lifestyle creator originally from Cameroon, now based in the USA. I share my love for baking, cooking, wellness, and community through this space.'),
-    ('whatsapp_number', '16735474730'),
+    ('whatsapp_number', '12407140180'),
     ('contact_email', 'mnetlifestyle1@gmail.com'),
-    ('contact_phone', '+1 673 547 4730'),
+    ('contact_phone', '+1 (202) 573-6852'),
     ('facebook_url', 'https://www.facebook.com/profile.php?id=100095233376780'),
     ('currency_symbol', '$'),
     ('fcfa_rate', '600');

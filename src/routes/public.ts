@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import type { Env, SiteSetting } from '../types';
+import { normalizeMediaUrl } from '../lib/media-url';
 
 type PublicEnv = { Bindings: Env };
 
@@ -39,7 +40,11 @@ publicRoutes.get('/cakes', async (c) => {
       : c.env.DB.prepare(query);
 
     const { results } = await stmt.all();
-    return c.json({ cakes: results });
+    const cakes = results.map((cake: any) => ({
+      ...cake,
+      image_url: normalizeMediaUrl(cake.image_url, cake.image_key),
+    }));
+    return c.json({ cakes });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cakes' }, 500);
   }
@@ -61,10 +66,20 @@ publicRoutes.get('/cakes/:slug', async (c) => {
     }
 
     const { results: images } = await c.env.DB.prepare(
-      'SELECT id, image_url, display_order FROM cake_images WHERE cake_id = ? ORDER BY display_order ASC'
+      'SELECT id, image_url, image_key, media_type, poster_url, poster_key, display_order FROM cake_images WHERE cake_id = ? ORDER BY display_order ASC'
     ).bind((cake as any).id).all();
 
-    return c.json({ cake, images });
+    const normalizedCake = {
+      ...(cake as any),
+      image_url: normalizeMediaUrl((cake as any).image_url, (cake as any).image_key),
+    };
+    const normalizedImages = images.map((img: any) => ({
+      ...img,
+      image_url: normalizeMediaUrl(img.image_url, img.image_key),
+      poster_url: normalizeMediaUrl(img.poster_url, img.poster_key),
+    }));
+
+    return c.json({ cake: normalizedCake, images: normalizedImages });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cake' }, 500);
   }
@@ -119,8 +134,13 @@ publicRoutes.get('/blog', async (c) => {
 
     const total = countResult?.total || 0;
 
+    const posts = postsResult.results.map((post: any) => ({
+      ...post,
+      cover_image_url: normalizeMediaUrl(post.cover_image_url, post.cover_image_key),
+    }));
+
     return c.json({
-      posts: postsResult.results,
+      posts,
       pagination: {
         page,
         limit,
@@ -145,7 +165,13 @@ publicRoutes.get('/blog/:slug', async (c) => {
       return c.json({ error: 'Post not found' }, 404);
     }
 
-    return c.json({ post });
+    const normalizedPost = {
+      ...(post as any),
+      cover_image_url: normalizeMediaUrl((post as any).cover_image_url, (post as any).cover_image_key),
+      video_url: normalizeMediaUrl((post as any).video_url, (post as any).video_key),
+    };
+
+    return c.json({ post: normalizedPost });
   } catch (e) {
     return c.json({ error: 'Failed to fetch post' }, 500);
   }
@@ -157,7 +183,12 @@ publicRoutes.get('/humanitarian', async (c) => {
     const { results } = await c.env.DB.prepare(
       'SELECT * FROM humanitarian_entries WHERE is_published = 1 ORDER BY activity_date DESC, created_at DESC'
     ).all();
-    return c.json({ entries: results });
+    const entries = results.map((entry: any) => ({
+      ...entry,
+      cover_image_url: normalizeMediaUrl(entry.cover_image_url, entry.cover_image_key),
+      video_url: normalizeMediaUrl(entry.video_url, entry.video_key),
+    }));
+    return c.json({ entries });
   } catch (e) {
     return c.json({ error: 'Failed to fetch entries' }, 500);
   }
@@ -175,7 +206,13 @@ publicRoutes.get('/humanitarian/:slug', async (c) => {
       return c.json({ error: 'Entry not found' }, 404);
     }
 
-    return c.json({ entry });
+    const normalizedEntry = {
+      ...(entry as any),
+      cover_image_url: normalizeMediaUrl((entry as any).cover_image_url, (entry as any).cover_image_key),
+      video_url: normalizeMediaUrl((entry as any).video_url, (entry as any).video_key),
+    };
+
+    return c.json({ entry: normalizedEntry });
   } catch (e) {
     return c.json({ error: 'Failed to fetch entry' }, 500);
   }

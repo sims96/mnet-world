@@ -121,12 +121,24 @@
       ? '<p class="timeline-entry__excerpt">' + escapeHTML(entry.description) + '</p>'
       : '';
 
+    var videoHTML = '';
+    if (entry.video_url) {
+      videoHTML =
+        '<div style="padding: 0 var(--space-4) var(--space-4);">' +
+          '<video controls playsinline preload="metadata" style="width:100%;border-radius:var(--radius-md);">' +
+            '<source src="' + escapeHTML(entry.video_url) + '">' +
+            'Your browser does not support the video tag.' +
+          '</video>' +
+        '</div>';
+    }
+
     return (
       '<div class="timeline-entry">' +
         '<div class="timeline-entry__dot" aria-hidden="true"></div>' +
         dateHTML +
         '<div class="timeline-entry__card">' +
           imageHTML +
+          videoHTML +
           '<div class="timeline-entry__body">' +
             '<h3 class="timeline-entry__title">' + escapeHTML(entry.title) + '</h3>' +
             excerptHTML +

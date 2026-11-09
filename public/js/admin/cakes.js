@@ -276,8 +276,17 @@ function renderGalleryGrid() {
   }
 
   grid.innerHTML = galleryImages.map(function(img) {
-    return '<div class="gallery-thumb" data-id="' + img.id + '">' +
-      '<img src="' + escapeHtml(img.image_url) + '" alt="Gallery image">' +
+    var media;
+    if (img.media_type === 'video') {
+      media = img.poster_url
+        ? '<img src="' + escapeHtml(img.poster_url) + '" alt="Gallery video">'
+        : '<video src="' + escapeHtml(img.image_url) + '#t=0.5" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>';
+      media += '<span class="gallery-thumb__badge" style="position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:1px 6px;border-radius:8px;">&#9654; Video</span>';
+    } else {
+      media = '<img src="' + escapeHtml(img.image_url) + '" alt="Gallery image">';
+    }
+    return '<div class="gallery-thumb" data-id="' + img.id + '" style="position:relative;">' +
+      media +
       '<button type="button" class="remove-image" title="Remove image" onclick="deleteGalleryImage(' + img.id + ')">&times;</button>' +
     '</div>';
   }).join('');
@@ -330,12 +339,15 @@ function initGalleryUpload() {
 
 async function uploadGalleryImage(file) {
   // Validate type
-  var allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-  if (allowedTypes.indexOf(file.type) === -1) {
+  var imageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  var videoTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
+  var isVideo = videoTypes.indexOf(file.type) !== -1;
+  if (!isVideo && imageTypes.indexOf(file.type) === -1) {
     showToast('Invalid file type: ' + file.name, 'error');
     return;
   }
-  if (file.size > 5 * 1024 * 1024) {
+  var maxSize = isVideo ? 100 * 1024 * 1024 : 5 * 1024 * 1024;
+  if (file.size > maxSize) {
     showToast('File too large: ' + file.name, 'error');
     return;
   }
@@ -351,12 +363,13 @@ async function uploadGalleryImage(file) {
     var imgData = await adminApi('POST', '/api/admin/cakes/' + currentCakeId + '/images', {
       image_url: uploadData.url,
       image_key: uploadData.key,
+      media_type: isVideo ? 'video' : 'image',
       display_order: galleryImages.length,
     });
 
     galleryImages.push(imgData.image);
     renderGalleryGrid();
-    showToast('Image added!', 'success');
+    showToast(isVideo ? 'Video added!' : 'Image added!', 'success');
   } catch (e) {
     showToast('Upload failed: ' + e.message, 'error');
   }

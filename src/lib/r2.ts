@@ -5,6 +5,9 @@ function getExtension(contentType: string): string {
     'image/webp': 'webp',
     'image/gif': 'gif',
     'image/svg+xml': 'svg',
+    'video/mp4': 'mp4',
+    'video/webm': 'webm',
+    'video/quicktime': 'mov',
   };
   return map[contentType] || 'bin';
 }
@@ -24,7 +27,9 @@ export async function uploadToR2(
   const ext = getExtension(contentType);
   const timestamp = Date.now();
   const randomId = generateRandomId();
-  const key = `images/${type}/${timestamp}-${randomId}.${ext}`;
+  const isVideo = contentType.startsWith('video/');
+  const prefix = isVideo ? 'videos' : 'images';
+  const key = `${prefix}/${type}/${timestamp}-${randomId}.${ext}`;
 
   await bucket.put(key, file, {
     httpMetadata: {
@@ -32,7 +37,7 @@ export async function uploadToR2(
     },
   });
 
-  const url = `${publicUrl.replace(/\/$/, '')}/${key}`;
+  const url = `/media/${key}`;
   return { url, key };
 }
 

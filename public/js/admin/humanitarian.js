@@ -120,6 +120,11 @@ async function initHumanitarianForm() {
     coverImageData = data;
   });
 
+  // Initialize video upload
+  initVideoUpload('video-upload', function(data) {
+    // video data stored in zone._uploadState
+  });
+
   // If editing, load entry data
   if (currentEntryId) {
     await loadEntryData(currentEntryId);
@@ -168,6 +173,11 @@ async function loadEntryData(id) {
       coverImageData = { url: entry.cover_image_url, key: entry.cover_image_key };
       setExistingImage('cover-upload', entry.cover_image_url, entry.cover_image_key);
     }
+
+    // Set video
+    if (entry.video_url) {
+      setExistingVideo('video-upload', entry.video_url, entry.video_key);
+    }
   } catch (e) {
     showToast('Failed to load entry: ' + e.message, 'error');
     console.error('Failed to load entry:', e);
@@ -198,6 +208,7 @@ async function saveEntry() {
 
   // Get cover image data
   var img = getImageData('cover-upload');
+  var vid = getVideoData('video-upload');
 
   var payload = {
     title: title,
@@ -206,6 +217,8 @@ async function saveEntry() {
     activity_date: activityDate || null,
     cover_image_url: img.url || null,
     cover_image_key: img.key || null,
+    video_url: vid.url || null,
+    video_key: vid.key || null,
     is_published: isPublished ? 1 : 0,
   };
 

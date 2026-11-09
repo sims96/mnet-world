@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { slugify } from '../lib/slugify';
 import { deleteFromR2 } from '../lib/r2';
 import type { Env, Cake, CakeImage, Category } from '../types';
+import { normalizeMediaUrl } from '../lib/media-url';
 
 type AdminEnv = { Bindings: Env; Variables: { adminId: number; username: string } };
 
@@ -132,7 +133,11 @@ adminCakes.get('/', async (c) => {
       : c.env.DB.prepare(query);
 
     const { results } = await stmt.all();
-    return c.json({ cakes: results });
+    const cakes = results.map((cake: any) => ({
+      ...cake,
+      image_url: normalizeMediaUrl(cake.image_url, cake.image_key),
+    }));
+    return c.json({ cakes });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cakes' }, 500);
   }
@@ -154,7 +159,17 @@ adminCakes.get('/:id', async (c) => {
       'SELECT * FROM cake_images WHERE cake_id = ? ORDER BY display_order ASC'
     ).bind(id).all<CakeImage>();
 
-    return c.json({ cake, images });
+    const normalizedCake = {
+      ...(cake as any),
+      image_url: normalizeMediaUrl((cake as any).image_url, (cake as any).image_key),
+    };
+    const normalizedImages = images.map((img: any) => ({
+      ...img,
+      image_url: normalizeMediaUrl(img.image_url, img.image_key),
+      poster_url: normalizeMediaUrl(img.poster_url, img.poster_key),
+    }));
+
+    return c.json({ cake: normalizedCake, images: normalizedImages });
   } catch (e) {
     return c.json({ error: 'Failed to fetch cake' }, 500);
   }
@@ -293,13 +308,14 @@ adminCakes.delete('/:id', async (c) => {
 
     // Delete gallery images from R2
     const { results: galleryImages } = await c.env.DB.prepare(
-      'SELECT image_key FROM cake_images WHERE cake_id = ?'
-    ).bind(id).all<{ image_key: string | null }>();
+      'SELECT image_key, poster_key FROM cake_images WHERE cake_id = ?'
+    ).bind(id).all<{ image_key: string | null; poster_key: string | null }>();
 
     for (const img of galleryImages) {
-      if (img.image_key) {
+      for (const key of [img.image_key, img.poster_key]) {
+        if (!key) continue;
         try {
-          await deleteFromR2(c.env.MEDIA_BUCKET, img.image_key);
+          await deleteFromR2(c.env.MEDIA_BUCKET, key);
         } catch {
           // Continue even if R2 delete fails
         }
@@ -324,12 +340,15 @@ adminCakes.post('/:id/images', async (c) => {
     const body = await c.req.json<{
       image_url: string;
       image_key?: string;
+      media_type?: string;
       display_order?: number;
     }>();
 
     if (!body.image_url) {
       return c.json({ error: 'Image URL is required' }, 400);
     }
+
+    const mediaType = body.media_type === 'video' ? 'video' : 'image';
 
     // Verify cake exists
     const cake = await c.env.DB.prepare('SELECT id FROM cakes WHERE id = ?').bind(cakeId).first();
@@ -338,11 +357,12 @@ adminCakes.post('/:id/images', async (c) => {
     }
 
     const result = await c.env.DB.prepare(
-      'INSERT INTO cake_images (cake_id, image_url, image_key, display_order) VALUES (?, ?, ?, ?)'
+      'INSERT INTO cake_images (cake_id, image_url, image_key, media_type, display_order) VALUES (?, ?, ?, ?, ?)'
     ).bind(
       cakeId,
       body.image_url,
       body.image_key || null,
+      mediaType,
       body.display_order ?? 0
     ).run();
 
@@ -353,6 +373,9 @@ adminCakes.post('/:id/images', async (c) => {
         cake_id: cakeId,
         image_url: body.image_url,
         image_key: body.image_key || null,
+        media_type: mediaType,
+        poster_url: null,
+        poster_key: null,
         display_order: body.display_order ?? 0,
       },
     }, 201);
@@ -375,10 +398,11 @@ adminCakes.delete('/:id/images/:imageId', async (c) => {
       return c.json({ error: 'Image not found' }, 404);
     }
 
-    // Delete from R2 if has key
-    if (image.image_key) {
+    // Delete media (and video poster) from R2
+    for (const key of [image.image_key, image.poster_key]) {
+      if (!key) continue;
       try {
-        await deleteFromR2(c.env.MEDIA_BUCKET, image.image_key);
+        await deleteFromR2(c.env.MEDIA_BUCKET, key);
       } catch {
         // Continue even if R2 delete fails
       }

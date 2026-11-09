@@ -98,6 +98,22 @@
       // Otherwise keep the placeholder
     }
 
+    // Video (if available, show below cover image)
+    if (post.video_url) {
+      var videoDiv = document.createElement('div');
+      videoDiv.className = 'post-video';
+      videoDiv.style.cssText = 'margin: var(--space-6) 0; text-align: center;';
+      videoDiv.innerHTML =
+        '<video controls playsinline preload="metadata" style="max-width:100%;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);">' +
+          '<source src="' + escapeHTML(post.video_url) + '">' +
+          'Your browser does not support the video tag.' +
+        '</video>';
+      var postArticle = document.querySelector('.post-article');
+      if (postArticle && coverEl) {
+        postArticle.insertBefore(videoDiv, coverEl.nextSibling);
+      }
+    }
+
     // Post meta
     if (metaEl) {
       var html = '';

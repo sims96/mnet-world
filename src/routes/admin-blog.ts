@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { slugify } from '../lib/slugify';
 import { deleteFromR2 } from '../lib/r2';
 import type { Env, BlogPost } from '../types';
+import { normalizeMediaUrl } from '../lib/media-url';
 
 type AdminEnv = { Bindings: Env; Variables: { adminId: number; username: string } };
 
@@ -13,7 +14,12 @@ adminBlog.get('/', async (c) => {
     const { results } = await c.env.DB.prepare(
       'SELECT * FROM blog_posts ORDER BY created_at DESC'
     ).all<BlogPost>();
-    return c.json({ posts: results });
+    const posts = results.map((post: any) => ({
+      ...post,
+      cover_image_url: normalizeMediaUrl(post.cover_image_url, post.cover_image_key),
+      video_url: normalizeMediaUrl(post.video_url, post.video_key),
+    }));
+    return c.json({ posts });
   } catch (e) {
     return c.json({ error: 'Failed to fetch posts' }, 500);
   }
@@ -31,7 +37,13 @@ adminBlog.get('/:id', async (c) => {
       return c.json({ error: 'Post not found' }, 404);
     }
 
-    return c.json({ post });
+    const normalizedPost = {
+      ...post,
+      cover_image_url: normalizeMediaUrl(post.cover_image_url, post.cover_image_key),
+      video_url: normalizeMediaUrl((post as any).video_url, (post as any).video_key),
+    };
+
+    return c.json({ post: normalizedPost });
   } catch (e) {
     return c.json({ error: 'Failed to fetch post' }, 500);
   }
@@ -46,6 +58,8 @@ adminBlog.post('/', async (c) => {
       content: string;
       cover_image_url?: string;
       cover_image_key?: string;
+      video_url?: string;
+      video_key?: string;
       category?: string;
       redirect_url?: string;
     }>();
@@ -57,8 +71,8 @@ adminBlog.post('/', async (c) => {
     const slug = slugify(body.title);
 
     const result = await c.env.DB.prepare(
-      `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image_url, cover_image_key, category, redirect_url, is_published)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)`
+      `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image_url, cover_image_key, video_url, video_key, category, redirect_url, is_published)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)`
     ).bind(
       body.title,
       slug,
@@ -66,6 +80,8 @@ adminBlog.post('/', async (c) => {
       body.content,
       body.cover_image_url || null,
       body.cover_image_key || null,
+      body.video_url || null,
+      body.video_key || null,
       body.category || null,
       body.redirect_url || null
     ).run();
@@ -96,6 +112,8 @@ adminBlog.put('/:id', async (c) => {
       content?: string;
       cover_image_url?: string | null;
       cover_image_key?: string | null;
+      video_url?: string | null;
+      video_key?: string | null;
       category?: string | null;
       redirect_url?: string | null;
     }>();
@@ -114,15 +132,17 @@ adminBlog.put('/:id', async (c) => {
     const content = body.content ?? existing.content;
     const coverImageUrl = body.cover_image_url !== undefined ? body.cover_image_url : existing.cover_image_url;
     const coverImageKey = body.cover_image_key !== undefined ? body.cover_image_key : existing.cover_image_key;
+    const videoUrl = body.video_url !== undefined ? body.video_url : existing.video_url;
+    const videoKey = body.video_key !== undefined ? body.video_key : existing.video_key;
     const category = body.category !== undefined ? body.category : existing.category;
     const redirectUrl = body.redirect_url !== undefined ? body.redirect_url : existing.redirect_url;
 
     await c.env.DB.prepare(
       `UPDATE blog_posts SET title = ?, slug = ?, excerpt = ?, content = ?, cover_image_url = ?,
-       cover_image_key = ?, category = ?, redirect_url = ?, updated_at = datetime('now') WHERE id = ?`
+       cover_image_key = ?, video_url = ?, video_key = ?, category = ?, redirect_url = ?, updated_at = datetime('now') WHERE id = ?`
     ).bind(
       title, slug, excerpt, content, coverImageUrl,
-      coverImageKey, category, redirectUrl, id
+      coverImageKey, videoUrl, videoKey, category, redirectUrl, id
     ).run();
 
     return c.json({ success: true, post: { id, title, slug } });
@@ -151,6 +171,15 @@ adminBlog.delete('/:id', async (c) => {
     if (existing.cover_image_key) {
       try {
         await deleteFromR2(c.env.MEDIA_BUCKET, existing.cover_image_key);
+      } catch {
+        // Continue even if R2 delete fails
+      }
+    }
+
+    // Delete R2 video if exists
+    if (existing.video_key) {
+      try {
+        await deleteFromR2(c.env.MEDIA_BUCKET, existing.video_key);
       } catch {
         // Continue even if R2 delete fails
       }

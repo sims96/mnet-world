@@ -255,6 +255,7 @@ function buildSidebar(activePage) {
   var navItems = [
     { id: 'dashboard',    href: '/admin/dashboard.html',       icon: '\uD83D\uDCCA', label: 'Dashboard' },
     { id: 'cakes',        href: '/admin/cakes.html',           icon: '\uD83C\uDF82', label: 'Cakes' },
+    { id: 'categories',   href: '/admin/categories.html',      icon: '\uD83C\uDFF7\uFE0F', label: 'Categories' },
     { id: 'blog',         href: '/admin/blog.html',            icon: '\uD83D\uDCDD', label: 'Blog' },
     { id: 'humanitarian', href: '/admin/humanitarian.html',    icon: '\u2764\uFE0F',  label: 'Humanitarian' },
     { id: 'chat',         href: '/admin/chat.html',            icon: '\uD83D\uDCAC', label: 'Messages' },
